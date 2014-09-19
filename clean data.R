@@ -1,3 +1,5 @@
+library(stringr)
+
 textFiles <- list.files(paste0(getwd(),"/Results"), full.names = T)
 a <- read.table(textFiles[1], header = FALSE)
 head(a)
@@ -82,6 +84,9 @@ dat$Precint <- gsub("#", "No. ",dat$Precint)
 dat$Precint <- gsub(" - ", " ",dat$Precint)
 dat$Precint[dat$Precint == "District 34- Question"] <- "District 34 - Question" 
 
+no_precinct <- dat[str_detect(dat$Precint, "District"),]
+precinct    <- dat[!str_detect(dat$Precint, "District"),]
 
-dat2 <- unique(cbind(as.character(dat$Precint), dat$Year, as.character(dat$Type)))
-write.csv(dat2, "dat.csv", row.names = F)
+write.csv(no_precinct, "Absentee and Questioned Ballots.csv", row.names = F)
+write.csv(precinct, "Votes By Precinct.csv", row.names = F)
+
