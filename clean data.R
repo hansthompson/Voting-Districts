@@ -1,5 +1,4 @@
 textFiles <- list.files(paste0(getwd(),"/Results"), full.names = T)
-
 a <- read.table(textFiles[1], header = FALSE)
 head(a)
 a <- a[,c(2,3,6,7,8,9)]
@@ -80,7 +79,8 @@ dat <- rbind(a,b,c,d,e,f,g,h,i,j,k,l)
 code <- sapply(as.numeric(substring(dat$Precint, 1,1)), is.na)
 dat$Precint[!code] <- substring(dat$Precint[!code], 8)
 dat$Precint <- gsub("#", "No. ",dat$Precint)
-
+dat$Precint <- gsub(" - ", " ",dat$Precint)
+dat$Precint[dat$Precint == "District 34- Question"] <- "District 34 - Question" 
 
 
 dat2 <- unique(cbind(as.character(dat$Precint), dat$Year, as.character(dat$Type)))
